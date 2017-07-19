@@ -1,0 +1,98 @@
+name: moos
+version: '10.0.2.a'
+summary: Mission Oriented Operating Suite
+description: |
+  A very light weight, easy to use middleware.
+
+grade: stable
+confinement: strict
+
+apps:
+  MOOSDB:
+    command: MOOSDB
+    plugs:
+      - network
+      - network-bind
+
+  ktm:
+    command: ktm
+    plugs:
+      - network
+      - network-bind
+
+  mtm:
+    command: mtm
+    plugs:
+      - network
+      - network-bind
+
+  mqos:
+    command: mqos
+    plugs:
+      - network
+      - network-bind
+
+  umm:
+    command: umm
+    plugs:
+      - network
+      - network-bind
+
+  pAntler:
+    command: pAntler
+    plugs: [network, network-bind, home, removable-media]
+
+  pLogger:
+    command: pLogger
+    plugs: [network, network-bind]
+
+  pMOOSBridge:
+    command: pMOOSBridge
+    plugs: [network, network-bind]
+
+  pScheduler:
+    command: pScheduler
+    plugs: [network, network-bind]
+
+  pShare:
+    command: pShare
+    plugs: [network, network-bind]
+
+parts:
+  core-moos:
+    plugin: cmake
+    source: https://github.com/kyrofa/core-moos.git
+    source-branch: backport/install_config
+    configflags:
+      - -DENABLE_EXPORT=OFF
+      - -DCMAKE_INSTALL_PREFIX=/
+    build-packages: [gcc, g++]
+
+  essential-moos:
+    plugin: cmake
+    source: https://github.com/themoos/essential-moos.git
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/
+    build-packages: [gcc, g++]
+    after: [core-moos]
+
+  geodesy-moos:
+    plugin: cmake
+    source: https://github.com/kyrofa/geodesy-moos.git
+    source-branch: install_config
+    configflags:
+      - -DENABLE_EXPORT=OFF
+      - -DCMAKE_INSTALL_PREFIX=/
+    build-packages: [gcc, g++]
+
+#  ui-moos:
+#    plugin: cmake
+#    source: https://github.com/themoos/ui-moos.git
+#    configflags:
+#      - -DCMAKE_INSTALL_PREFIX=/
+#      - -DBUILD_CONSOLE_TOOLS=ON
+#      - -DBUILD_GRAPHICAL_TOOLS=ON
+#      - -DBUILD_UPB=ON
+#      - -DBUILD_UPBINDEXED=ON
+#    build-packages: [gcc, g++, libfltk1.3-dev]
+#    after: [core-moos]
