@@ -69,7 +69,7 @@ parts:
   core-moos:
     plugin: cmake
     source: https://github.com/kyrofa/core-moos.git
-    source-branch: backport/install_config
+    source-branch: 10.0.2.a_install_config
     configflags:
       - -DENABLE_EXPORT=OFF
       - -DCMAKE_INSTALL_PREFIX=/
